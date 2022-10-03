@@ -6,28 +6,26 @@ import CartContainer from "./components/CartContainer";
 import cartItems from "./cart-items";
 // redux stuff
 import { createStore } from 'redux'
-import { DECREASE, INCREASE } from './actions'
 import reducer from './reducer'
-
+import { Provider } from "react-redux";
 // initial store
 const initialStore = {
-  count: 0,
-  name: 'john'
+  cart: cartItems,
+  total: 100,
+  amount: 0
 }
 
 const store = createStore(reducer, initialStore)
-store.dispatch({type: DECREASE})
-store.dispatch({type: INCREASE })
 
 
 function App() {
   // cart setup
 
   return (
-    <main>
-      <Navbar cart={store.getState()} />
-      <CartContainer cart={cartItems} />
-    </main>
+    <Provider store={store}>
+      <Navbar />
+      <CartContainer />
+    </Provider>
   );
 }
 
