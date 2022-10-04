@@ -6,10 +6,27 @@ const reducer = (state, action) => {
       return {...state, cart: []}
       break;
     case DECREASE:
-      console.log('u decrease amount');
+      let tempCartMinus = []
+      if (action.payload.amount === 1) {
+        tempCartMinus = state.cart.filter(cartItem => cartItem.id !== action.payload.id)
+      } else {
+        tempCartMinus = state.cart.map(cartItem => {
+        if (cartItem.id === action.payload.id) {
+          cartItem = {...cartItem, amount: cartItem.amount - 1}
+        }
+          return cartItem
+        })
+      }
+      return {...state, cart: tempCartMinus}
       break
     case INCREASE:
-      console.log('u increase  amount');
+      let tempCartPlus = state.cart.map(cartItem => {
+        if (cartItem.id === action.payload.id) {
+          cartItem = {...cartItem, amount: cartItem.amount + 1}
+        }
+        return cartItem
+      })
+      return {...state, cart: tempCartPlus }
       break
     case REMOVE:
       return {...state, cart: state.cart.filter(cartItem => cartItem.id !== action.payload.id)}
